@@ -1,6 +1,9 @@
 @echo off
+title Bethesda Renamer
 
-cd /D G:\
-cd G:\Games\Steam\steamapps\common\Skyrim Special Edition
+REM Path Where File Is Located
+cd /D D:\
+cd D:\Google Drive\Documents\GitHub\Bethesda Screenshot Renamer
 
-python screenShotRenamer.py
+REM Runs Python Script
+python renamer.py sse "G:\Games\Steam\steamapps\common\Skyrim Special Edition" "D:\Google Drive\Pictures\Games\Skyrim"
