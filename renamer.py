@@ -1,26 +1,33 @@
-import os, os.path
-import sys
-import shutil
-import datetime
-import time
+import os, os.path, sys, shutil, datetime, time
 
-def rename(prefix, inpath, outpath):
+def rename(prefix = '', inpath = '', outpath = ''):
     'Renames Screenshots for games to date time format.'
+    
+    # if outpath is empty just rename it
+    if outpath == '':
+        outpath = inpath
     prefix = prefix.upper()
+
+    # prints directories
     print('Current Directory: {}'.format(inpath))
     print('Move To: {}'.format(outpath))
+
     items = os.listdir(inpath)
     #print(items)
     for item in items:
         curItem = os.path.join(inpath,item)
-        curTime = datetime.datetime.now()
-        curTime = curTime.strftime('%Y%m%d%H%M%S')
         if os.path.isfile(curItem) and 'ScreenShot' in item:
+            
+            # naming convention
+            curTime = datetime.datetime.now()
+            curTime = curTime.strftime('%Y%m%d%H%M%S')
+            # renames file
             fname = '{}{}.png'.format(prefix, curTime)
-            fname = os.path.join(inpath,fname)
-            print(item)
-            os.rename(curItem, fname)
-            shutil.move(fname, outpath)
+            fpath = os.path.join(inpath,fname)
+            print('Renaming {} to {}'.format(item, fname))
+            os.rename(curItem, fpath)
+            shutil.move(fpath, outpath)
+            # small delay
             time.sleep(1)
 
 if __name__ == '__main__':
@@ -32,4 +39,3 @@ if __name__ == '__main__':
         rename(prefix, inpath, outpath)
     except:
         pass
-
