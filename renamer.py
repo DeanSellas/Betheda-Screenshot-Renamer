@@ -1,5 +1,4 @@
 import os, os.path, sys, shutil, datetime, time
-
 def rename(prefix = '', inpath = '', outpath = ''):
     'Renames Screenshots for games to date time format.'
     
@@ -27,15 +26,35 @@ def rename(prefix = '', inpath = '', outpath = ''):
             print('Renaming {} to {}'.format(item, fname))
             os.rename(curItem, fpath)
             shutil.move(fpath, outpath)
-            # small delay
+            # small delay to allow for unique names
             time.sleep(1)
 
+def backup(lst = [], inpath = '', outpath = ''):
+    'Backs Up files in the Skyrims Data Directory Created to safely backup the mods that I am creating on'
+    
+    # Makes sure inpath is set to data directory
+    if not 'Skyrim Special Edition/Data' in inpath:
+        inpath = os.path.join(inpath, 'Data')
+    
+    # backsup files
+    items = os.listdir(inpath)
+    for item in items:
+        if item in lst:
+            fpath = os.path.join(inpath, item)
+            print('Copying {} to {}'.format(item, outpath))
+            shutil.copyfile(fpath, outpath)
+
+
+# Code needed for the .bat file to call functions properly
 if __name__ == '__main__':
     try:
-        prefix = sys.argv[1]
-        inpath = sys.argv[2]
-        outpath = sys.argv[3]
-        print(sys.argv)
-        rename(prefix, inpath, outpath)
+        function = sys.argv[1]
+        var = sys.argv[2]
+        inpath = sys.argv[3]
+        outpath = sys.argv[4]
+        if function == 'rename':
+            rename(var, inpath, outpath)
+        elif function == 'backup':
+            backup(var, inpath, outpath)
     except:
         pass
